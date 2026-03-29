@@ -1,0 +1,163 @@
+    1  ip link show
+    2  sudo hostnamectl set-hostname mephi-2026.domain.local
+    3  ip link show
+    4  [200~sudo nmcli con mod eth0 ipv4.addresses 192.168.1.100/24
+    5  sudo nmcli con mod eth0 ipv4.gateway 192.168.1.1
+    6  sudo nmcli con mod wlp13s0 ipv4.addresses 192.168.1.100/24
+    7  sudo nmcli con mod wlp13s0 ipv4.gateway 192.168.1.1
+    8  sudo nmcli con mod wlp13s0 ipv4.dns "8.8.8.8"
+    9  sudo nmcli con mod wlp13s0 ipv4.method manual
+   10  reset
+   11  nmcli
+   12  sudo nmcli con mod lo ipv4.addresses 192.168.1.100/24
+   13  sudo nmcli con mod lo ipv4.gateway 192.168.1.1
+   14  sudo nmcli con mod lo ipv4.dns "8.8.8.8"
+   15  sudo nmcli con mod lo ipv4.method manual
+   16  sudo nmcli con up lo
+   17  ip route show default
+   18  ping -c 4 8.8.8.8 > /tmp/network_check.txt
+   19  ping -c 4 192.168.1.1 >> /tmp/network_check.txt
+   20  dnf install -y nginx tcpdump libcap-ng-utils
+   21  sudo dnf download tcpdump --destdir /tmp
+   22  dnf download tcpdump --destdir /tmp
+   23  rpm -ivh /tmp/tcpdump*.rpm
+   24  sudo fdisk /dev/sdb
+   25  sudo mkfs.ext4 -L MEPHI_DATA /dev/sdb1
+   26  рименения изменений
+   27  nmcli connection down lo
+   28  nmcli connection up lo
+   29  ip addr show lo
+   30  cat /etc/resolv.conf
+   31  cat /etc/resolv.conf
+   32  lsblk
+   33  sudo fdisk /dev/sda
+   34  reset
+   35  ip route show default
+   36  sudo fdisk /dev/sdb
+   37  cat /tmp/network_check.txt
+   38  lsblk
+   39  fdisk /dev/sda
+   40  lsblk
+   41  kfs.ext4 -L MEPHI_DATA /dev/sda1
+   42  mkfs.ext4 -L MEPHI_DATA /dev/sda1
+   43  mkdir -p /data/mephi-web
+   44  echo "LABEL=MEPHI_DATA /data/mephi-web ext4 defaults 0 0" >> /etc/fstab
+   45  mount -a
+   46  df -h /data/mephi-web
+   47  systemctl enable nginx
+   48  systemctl start nginx
+   49  systemctl status nginx
+   50  journalctl -u nginx --since "5 minutes ago" > /tmp/nginx_recent_logs.txt
+   51  cat /tmp/nginx_recent_logs.txt
+   52  groupadd mephi-devs
+   53  useradd -m -G mephi-devs mephi-admin
+   54  echo "P@ssw0rd2026" | passwd --stdin mephi-admin
+   55  echo 'LABEL=MEPHI_DATA /data/mephi-web ext4 defaults 0 2' | sudo tee -a /etc/fstab
+   56  sudo mount -a
+   57  sudo useradd mephi-admin
+   58  sudo groupadd mephi-devs
+   59  sudo usermod -aG mephi-devs mephi-admin
+   60  echo "P@ssw0rd2026" | passwd --stdin mephi-admin
+   61  [200~sudo chown mephi-admin:mephi-devs /data/mephi-web
+   62  sudo chmod 2775 /data/mephi-web
+   63  sudo chown mephi-admin:mephi-devs /data/mephi-web
+   64  sudo chmod 2775 /data/mephi-web
+   65  sudo setenforce Enforcing
+   66  getenforce
+   67  sudo semanage fcontext -a -t httpd_sys_content_t "/data/mephi-web(/.*)?"
+   68  sudo restorecon -R /data/mephi-web
+   69  # Снимите SUID, если есть
+   70  sudo chmod u-s /usr/sbin/tcpdump
+   71  # Добавьте capabilities
+   72  sudo setcap cap_net_raw,cap_net_admin+ep /usr/sbin/tcpdump
+   73  sudo -u mephi-admin tcpdump --help
+   74  echo "root" | sudo tee /etc/ssh/denied_users
+   75  echo 'auth required pam_listfile.so item=user sense=deny file=/etc/ssh/denied_users onerr=succeed' | sudo tee -a /etc/pam.d/sshd
+   76  sudo systemctl restart sshd
+   77  su - mephi-admin
+   78  echo "Hello from Student: 255990" > /data/mephi-web/index.html
+   79  sudo nano /etc/nginx/nginx.conf
+   80  sudo systemctl restart nginx
+   81  curl http://localhost
+   82  curl http://192.168.1.100
+   83  sudo mount -a
+   84  cat /etc/nginx/nginx.conf
+   85  ls -la /data/mephi-web/
+   86  nginx -t  # проверка синтаксиса конфига
+   87  # Применяем контекст для веб-контента (httpd_sys_content_t) к новой директории
+   88  semanage fcontext -a -t httpd_sys_content_t "/data/mephi-web(/.*)?"
+   89  restorecon -Rv /data/mephi-web
+   90  # Перезапускаем nginx для применения изменений
+   91  systemctl restart nginx
+   92  curl http://192.168.1.100
+   93  # Назначаем capability CAP_NET_RAW и CAP_NET_ADMIN для захвата пакетов без прав root
+   94  setcap cap_net_raw,cap_net_admin+ep /usr/sbin/tcpdump
+   95  # Проверяем назначение
+   96  getcap /usr/sbin/tcpdump > /tmp/tcpdump_capabilities.txt
+   97  cat /tmp/tcpdump_capabilities.txt
+   98  # Проверяем, что пользователь mephi-admin может запустить tcpdump
+   99  sudo -u mephi-admin tcpdump --help
+  100  echo "PermitRootLogin no" >> /etc/ssh/sshd_config
+  101  # Или используйте sed для замены, если строка уже есть
+  102  # sed -i 's/#PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+  103  # sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+  104  systemctl restart sshd
+  105  reset
+  106  echo "root" | sudo tee /etc/denied_users
+  107  echo "Hello from Student: 12345" | sudo tee /data/mephi-web/index.html
+  108  curl http://localhost
+  109  sudo chown -R www-data:www-data /data/mephi-web
+  110  # Создаем группу и пользователя
+  111  sudo groupadd mephi-devs
+  112  sudo useradd -G mephi-devs mephi-admin
+  113  echo "mephi-admin:P@ssw0rd2026" | sudo chpasswd
+  114  # Создаем директорию (если нет) и меняем владельца
+  115  sudo mkdir -p /data/mephi-web
+  116  sudo chown mephi-admin:mephi-devs /data/mephi-web
+  117  # Устанавливаем права 2775 (setgid)
+  118  sudo chmod 2775 /data/mephi-web
+  119  # Проверяем и включаем Enforcing
+  120  sudo setenforce 1
+  121  # Устанавливаем контекст SELinux для nginx
+  122  sudo semanage fcontext -a -t httpd_sys_content_t "/data/mephi-web(/.*)?"
+  123  sudo restorecon -R -v /data/mephi-web
+  124  # Настройка Capabilities для tcpdump
+  125  sudo chmod u-s /usr/sbin/tcpdump
+  126  sudo setcap 'cap_net_raw,cap_net_admin+ep' /usr/sbin/tcpdump
+  127  # Проверка (выполнится от mephi-admin без sudo)
+  128  sudo -u mephi-admin tcpdump --help
+  129  # Создаем страницу (замените 12345 на ваш номер)
+  130  sudo -u mephi-admin bash -c 'echo "Hello from Student: 12345" > /data/mephi-web/index.html'
+  131  # Проверка доступности
+  132  curl http://localhost
+  133  sudo nano /etc/nginx/nginx.conf
+  134  sudo nano /etc/nginx/nginx.conf
+  135  curl http://localhost
+  136  sudo systemctl restart nginx
+  137  curl http://localhost
+  138  '
+  139  lk
+  140  reset
+  141  sudo nano /etc/nginx/nginx.conf
+  142  curl http://localhost
+  143  sudo systemctl restart nginx
+  144  curl http://localhost
+  145  # Создаем страницу (замените 12345 на ваш номер)
+  146  sudo -u mephi-admin bash -c 'echo "Hello from Student: 12345" > /data/mephi-web/index.html'
+  147  # Проверка доступности
+  148  curl http://localhost
+  149  reset
+  150  su - mephi-admin
+  151  echo "Hello from Student: 255990" > /data/mephi-web/index.html
+  152  ls -l /data/mephi-web/index.html
+  153  sudo chcon -t httpd_sys_content_t -R /data/mephi-web
+  154  sudo chmod +x /data
+  155  sudo chmod +x /data/mephi-web
+  156  nginx -T | grep "root"
+  157  sudo nano /etc/nginx/nginx.conf
+  158  curl http://localhost
+  159  sudo nginx -t
+  160  sudo systemctl restart nginx
+  161  curl http://localhost
+  162  curl http://192.168.1.100 
+  163  history > ~/project_history.txt
